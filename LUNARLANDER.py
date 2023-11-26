@@ -3,7 +3,6 @@ from stable_baselines3 import DQN
 #from stable_baselines.common.vec_env import DummyVecEnv #Dummy Vectorized Environment, some algorithms require a vectorized environment, so this works
 from stable_baselines3.common.evaluation import evaluate_policy #Function used to evauluate performance of agent. Calculates Mean and Standard Deviation of all rewards obtained
 
-
 #BUILDING MODEL
 environment_name = 'LunarLander-v2'
 env = gym.make(environment_name, render_mode="rgb_array") #Creates Environment
