@@ -1,24 +1,26 @@
-import gym 
-from stable_baselines import ACER
-from stable_baselines.common.vec_env import DummyVecEnv
-from stable_baselines.common.evaluation import evaluate_policy
+import gym
+from stable_baselines3 import SAC
+from stable_baselines3.common.evaluation import evaluate_policy
+from gym import spaces
+import numpy as np
 
+# Building the environment
 environment_name = 'LunarLander-v2'
-env = gym.make(environment_name, render_mode="rgb_array") #Creates Environment
-#env = DummyVecEnv([lambda: env]) #Wraps the Environment in the Dummy Vectorized Environment
+env = gym.make(environment_name, render_mode="rgb_array")
 obs = env.reset()
-model = ACER('MlpPolicy', env,verbose = 1) # Creates an ACER model with a Multi-Layer Perceptron (MLP) policy 
-#When Verbose=1, it prints training info of each episode
-model.learn(total_timesteps=10000) # Trains the model for a specified number of timesteps
 
-#TESTING MODEL
-evaluate_policy(model, env, n_eval_episodes=10, render=True) #Evaluates 10 episodes and renders the trained model
+# Building the SAC model
+# Assuming the original action space is Discrete(4)
+# You need to choose an appropriate continuous action space for SAC
+# Example: Box action space with 2 dimensions
+# Adjust the low and high values based on the requirements of your environment
+env.action_space = spaces.Box([-1.5 -1.5 -5. -5. -3.1415927 -5. -0. -0. ], [1.5 1.5 5. 5. 3.1415927 5. 1. 1. ], (8,), float32)
+model = SAC('MlpPolicy', env, verbose=1)
+model.learn(total_timesteps=10000)
+# Testing the SAC model
+evaluate_policy(model, env, n_eval_episodes=10, render=True)
 
-
-#SAVING MODEL 
-env.close()
-model.save("DQN_model")
+# Saving and reloading the SAC model
+model.save("SAC_model")
 del model
-model = ACER.load("ACER_model", env=env) #Reloading Model to restart
-    #We Want High Variance and High Possible Mean Reward
-
+model = SAC.load("SAC_model", env=env)
