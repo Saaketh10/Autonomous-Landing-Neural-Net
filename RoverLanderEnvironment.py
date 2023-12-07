@@ -4,18 +4,16 @@ import pygame
 import numpy as np
 import cv2
 
-
 class GridWorldEnv(gym.Env):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4} #sets render mode and renders at 4fps
-    file_path = 'C:\Python\Autonomous-Landing-Neural-Net\ldem_4.tif' #path to moon elevation data file
+    file_path = 'C:\Python\Autonomous-Landing-Neural-Net\ldem_4.jpg' #path to moon elevation data file
     IMAGE = cv2.imread(file_path) #Reading the Image File
     IMAGE_ARRAY = np.array(IMAGE) #Converting the Image into a NumPy array to be used
 
-
     def __init__(self, render_mode=None, size=5): #sets grid size to 5
         self.size = size  # The size of the square grid
-        self.window_size = 512  # The size of the PyGame window
-
+        self.window_size_x = 1440  # Sets X Size
+        self.window_size_y = 720 #Sets Y size
         # Observations are dictionaries with the agent's and the target's location.
         # Each location is encoded as an element of {0, ..., `size`}^2, i.e. MultiDiscrete([size, size]).
         self.observation_space = spaces.Dict(
