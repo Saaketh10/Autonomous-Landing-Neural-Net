@@ -3,16 +3,7 @@ from gym import spaces
 import numpy as np
 import cv2
 import pygame
-from gym.envs.registration import register
 from setuptools import setup
-
-
-
-register(
-    id='MoonLanding-v0',
-    entry_point='my_gym_envs.moon_landing:MoonLandingEnv',
-    max_episode_steps=100,
-)
 
 
 
@@ -63,7 +54,7 @@ class MoonLandingEnv(gym.Env):
         info = {}
         return observation, reward, terminated, info
 
-    def calculate_reward(self, elevation_array, agent_location, radius=1):
+    def calculate_reward(self, elevation_array, agent_location, radius=1): #We can change radius
         x, y = agent_location
         surroundings = elevation_array[max(x - radius, 0):min(x + radius + 1, self.size[0]),
                                        max(y - radius, 0):min(y + radius + 1, self.size[1])]
