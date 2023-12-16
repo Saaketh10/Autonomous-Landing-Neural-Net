@@ -24,7 +24,7 @@ class GridWorldEnv(gym.Env):
         )
 
         # We have 4 actions, corresponding to "right", "up", "left", "down"
-        self.action_space = spaces.Discrete(4)
+        self.action_space = spaces.Discrete(5)
 
         """
         The following dictionary maps abstract actions from `self.action_space` to 
@@ -36,7 +36,8 @@ class GridWorldEnv(gym.Env):
             1: np.array([0, 1]),
             2: np.array([-1, 0]),
             3: np.array([0, -1]),
-        }
+            4: np.array([0, 0]), #ADDED THAT terminate, but I'm not sure what it does
+        }   
 
         assert render_mode is None or render_mode in self.metadata["render_modes"]
         self.render_mode = render_mode
@@ -61,7 +62,7 @@ class GridWorldEnv(gym.Env):
     def reset(self, seed=None, options=None):
         # We need the following line to seed self.np_random
         super().reset(seed=seed)
-
+        terminated = False #resets terminated
         # Choose the agent's location uniformly at random
         self._agent_location = self.np_random.integers(0, self.size, size=2, dtype=int)
 
@@ -81,10 +82,13 @@ class GridWorldEnv(gym.Env):
         return observation, info
     
     def step(self, action):
-        # Map the action (element of {0,1,2,3}) to the direction we walk in
-        direction = self._action_to_direction[action]
-        # We use `np.clip` to make sure we don't leave the grid
-        self._agent_location = np.clip(
+        if action == 4: #Sets that 4th action
+            terminated == True
+        else:
+            # Map the action (element of {0,1,2,3}) to the direction we walk in
+            direction = self._action_to_direction[action]
+            # We use `np.clip` to make sure we don't leave the grid 
+            self._agent_location = np.clip(
             self._agent_location + direction, 0, self.size - 1
         )
         # An episode is done iff the agent has reached the target
@@ -166,5 +170,6 @@ class GridWorldEnv(gym.Env):
         
     def close(self):
         if self.window is not None:
+            terminated = False
             pygame.display.quit()
             pygame.quit()
