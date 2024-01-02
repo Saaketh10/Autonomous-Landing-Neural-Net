@@ -4,3 +4,4 @@ register(
     entry_point='gym_foo.envs:MoonLandingEnv',
     max_episode_steps=100,
 )
+1
