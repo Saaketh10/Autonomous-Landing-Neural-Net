@@ -13,7 +13,7 @@ class MoonLandingEnv(gym.Env):
 
     def __init__(self, render_mode=None):
         super().__init__()
-        file_path = 'C:\Python\Autonomous-Landing-Neural-Net\ldem_4.jpg'  # Update this path to where the file is located.
+        file_path = 'gym-foo\ldem_4.jpg'  # Update this path to where the file is located.
         self.image = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE)
         self.elevation_array = np.array(self.image)
         self.size = self.elevation_array.shape
