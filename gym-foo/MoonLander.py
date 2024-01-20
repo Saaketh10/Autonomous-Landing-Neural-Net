@@ -2,6 +2,7 @@ import gym
 import pygame
 import numpy as np
 import gym_foo 
+import cv2
 #import gymnasium as gym
 from stable_baselines3 import DQN 
 #from stable_baselines.common.vec_env import DummyVecEnv #Dummy Vectorized Environment, some algorithms require a vectorized environment, so this works
@@ -31,14 +32,39 @@ model = DQN.load("DQN_model", env=env) #Reloading Model to restart
 vec_env = model.get_env()
 obs = vec_env.reset()
 rewards = np.zeros(5000)
+actions = np.zeros(5000)
 dones = False
 i=1
 while not dones:
-    action, _states = model.predict(obs, deterministic=True)
-    obs, rewards[i], dones, info = vec_env.step(action)
+    actions[i], _states = model.predict(obs, deterministic=True)
+    obs, rewards[i], dones, info = vec_env.step(actions[i])
     i+=1
     if dones == True:
         break
+
+action_to_direction = {
+            0: np.array([0, 1]),    # Move right
+            1: np.array([-1, 0]),   # Move up
+            2: np.array([0, -1]),   # Move left
+            3: np.array([1, 0]),    # Move down
+            4: np.array([0, 0])     # Terminate
+        }
+
+
+position = init_position
+# Plot image
+filepath = 'gym-foo/Idem4.jpg'
+gray_image = cv2.imread(filepath,0)
+
+        
+for j in [1:i]:
+    action = actions[j]
+    direction = action_to_direction[action]
+    position = position + direction
+    # Scatter plot position
+
+
+
 
 New_vals = rewards[0:i]
 plt.plot(New_vals)
