@@ -13,7 +13,7 @@ class MoonLandingEnv(gym.Env):
 
     def __init__(self, render_mode=None):
         super().__init__()
-        file_path = 'gym-foo\ldem_4.jpg'  # Update this path to where the file is located.
+        file_path = 'gym-foo\Idem_4.jpg'  # Update this path to where the file is located.
         self.image = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE)
         self.elevation_array = np.array(self.image)
         self.size = self.elevation_array.shape
@@ -30,7 +30,12 @@ class MoonLandingEnv(gym.Env):
 
     def reset(self):
         self.agent_location = (np.random.randint(self.size[0]), np.random.randint(self.size[1]))
+        #self.agent_location = (self.size[0]/2,self.size[1]/2)
         return np.array(self.agent_location)
+    
+    def _get_obs(self):
+        return {"agent": self.agent_location}
+    
 
     def step(self, action):
         action_to_direction = {
@@ -42,24 +47,27 @@ class MoonLandingEnv(gym.Env):
         }
 
         terminated = False
+        reward = 0
         if action == 4:  # Terminate action
             terminated = True
         else:
             # Update the agent's location based on the action
             direction = action_to_direction[action]
             self.agent_location = np.clip(self.agent_location + direction, [0, 0], np.array(self.size) - 1)
+            reward = self.calculate_reward(self.elevation_array, self.agent_location)
 
-        reward = self.calculate_reward(self.elevation_array, self.agent_location)
+
+        
         observation = np.array(self.agent_location)
         info = {}
         return observation, reward, terminated, info
 
     def calculate_reward(self, elevation_array, agent_location, radius=1): #We can change radius
         x, y = agent_location
-        surroundings = elevation_array[max(x - radius, 0):min(x + radius + 1, self.size[0]),
-                                       max(y - radius, 0):min(y + radius + 1, self.size[1])]
+        surroundings = elevation_array[int(max(x - radius, 0)):int(min(x + radius + 1, self.size[0])),
+                                       int(max(y - radius, 0)):int(min(y + radius + 1, self.size[1]))]
         average_surrounding_value = np.mean(surroundings)
-        threshold = 100
+        threshold = 1000
         deviation = np.sum(np.abs(surroundings - average_surrounding_value))
         reward = max(0, threshold - deviation) / threshold
         return reward
