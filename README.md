@@ -24,6 +24,10 @@ RoverLanderEnvironment.py: Custom Environment File (REINFORCEMENT LEARNING)
 
 Lunar lander.py: Training file for RoverLanderEnvironment
 
+MoonLanderReward: Graph output of RL model
+
+cummalitiverror: Graph output of Neural Network model
+
 
 Credits:
 This project was developed by Saaketh in collaboration with Cody, a PhD candidate at the University of Purdue for Aerospace Engineering. Special thanks to the mentors and advisors who provided valuable guidance throughout the research process.
