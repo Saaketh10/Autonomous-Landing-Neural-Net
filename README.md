@@ -13,4 +13,17 @@ The project utilizes two primary AI techniques:
 
 Reinforcement Learning (RL): An RL model is trained to make sequential decisions, optimizing the lunar lander's trajectory to ensure a safe and precise landing. The model learns from simulated environments, continually improving its performance through trial and error.
 
-Deep Neural Networks (DNN): A neural network model processes lunar elevation maps to assist the RL agent in making informed decisions. The DNN enhances the system's ability to interpret complex patterns and react to unexpected situations during the landing process.
+Deep Neural Networks (DNN): A neural network model processes lunar elevation maps in an array form to assist the RL agent in making informed decisions. The DNN enhances the system's ability to interpret complex patterns and react to unexpected situations during the landing process.
+
+Main Files:
+NetNeural.py: base of neural network code
+NetNeuralTrain.py: Training file for NetNeural
+RoverLanderEnvironment.py: Custom Environment File (REINFORCEMENT LEARNING)
+Lunar lander.py: Training file for RoverLanderEnvironment
+
+
+Credits
+This project was developed by Saaketh in collaboration with Cody, a PhD candidate at the University of Purdue for Aerospace Engineering. Special thanks to the mentors and advisors who provided valuable guidance throughout the research process.
+
+Contact
+For any questions or inquiries, please feel free to reach out: saakethsuvarna07@gmail.com
