@@ -17,8 +17,11 @@ Deep Neural Networks (DNN): A neural network model processes lunar elevation map
 
 Main Files:
 NetNeural.py: base of neural network code
+
 NetNeuralTrain.py: Training file for NetNeural
+
 RoverLanderEnvironment.py: Custom Environment File (REINFORCEMENT LEARNING)
+
 Lunar lander.py: Training file for RoverLanderEnvironment
 
 
